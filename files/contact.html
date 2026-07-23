@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — WB Plastics</title>
+<meta name="description" content="Get in touch with WB Plastics — address, phone, email and enquiry form.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="contact">
+
+  <section class="strip">
+    <div class="wrap section" style="padding-bottom:36px;">
+      <span class="section-kicker">Get in touch</span>
+      <h2 style="font-size:clamp(28px,4vw,42px); margin-bottom:10px;">Contact us</h2>
+      <p class="section-sub">Call the trade counter, drop an email, or send an enquiry below and we'll get back to you shortly.</p>
+    </div>
+  </section>
+
+  <div class="wrap contact-shell">
+    <div id="contactDetails"><!-- filled by app.js --></div>
+
+    <div class="contact-card">
+      <h3>Send an enquiry</h3>
+      <form id="contactForm" class="form-grid">
+        <div>
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" required>
+        </div>
+        <div>
+          <label for="email">Your email</label>
+          <input id="email" name="email" type="email" required>
+        </div>
+        <div>
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" placeholder="e.g. Fascia colour availability">
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="justify-self:start;">Send message</button>
+        <p class="form-note">Sending opens your email app with this message pre-filled to info@wbplastics.co.uk — nothing is sent from this page directly.</p>
+      </form>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

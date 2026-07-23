@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Products — WB Plastics</title>
+<meta name="description" content="Browse every product range stocked by WB Plastics: roofline, cladding, guttering, drainage, sealants, fixings, trims and lead.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="products">
+
+  <section class="strip">
+    <div class="wrap section" style="padding-bottom:36px;">
+      <span class="section-kicker">Full stock list</span>
+      <h2 style="font-size:clamp(28px,4vw,42px); margin-bottom:10px;">Our Products</h2>
+      <p class="section-sub">Search below, or use the aisle list to jump straight to a range.</p>
+    </div>
+  </section>
+
+  <div class="wrap products-shell">
+    <aside class="filter-panel">
+      <h4>Search stock</h4>
+      <input class="search-box" id="productSearch" type="text" placeholder="e.g. fascia, gutter clip, silicone…">
+      <h4>Aisles</h4>
+      <nav class="cat-list" id="catList"><!-- filled by app.js --></nav>
+    </aside>
+
+    <main id="catSections"><!-- filled by app.js --></main>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
