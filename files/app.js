@@ -30,6 +30,7 @@
     const nav = [
       { label: "Home", href: "index.html", key: "home" },
       { label: "Products", href: "products.html", key: "products" },
+      { label: "About Us", href: "about.html", key: "about" },
       { label: "Contact", href: "contact.html", key: "contact" }
     ];
 
@@ -310,6 +311,26 @@
     `;
   }
 
+  /* ---------- About page ---------- */
+  function renderAbout(){
+    const map = document.getElementById('aboutMap');
+    if (map){
+      map.innerHTML = `
+        <iframe src="${D.about.map.embedSrc}" loading="lazy" allowfullscreen title="WB Plastics on Google Maps"></iframe>
+        <a class="map-badge" href="${D.about.map.link}" target="_blank" rel="noopener">Open in Google Maps</a>
+      `;
+    }
+
+    const box = document.getElementById('aboutContent');
+    if (box){
+      box.innerHTML = `
+        <span class="section-kicker">${D.about.kicker}</span>
+        <h2>${D.about.title}</h2>
+        ${D.about.body.map(p => `<p>${p}</p>`).join('')}
+      `;
+    }
+  }
+
   /* ---------- Contact page ---------- */
   function renderContact(){
     const box = document.getElementById('contactDetails');
@@ -346,6 +367,7 @@
     if (page === 'home') renderHome();
     if (page === 'products') renderProducts();
     if (page === 'product') renderProductDetail();
+    if (page === 'about') renderAbout();
     if (page === 'contact') renderContact();
   });
 })();

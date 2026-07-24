@@ -56,9 +56,24 @@ window.SITE_DATA = {
   highlights: [
     { label: "Trade counter", value: "Open 6 days a week" },
     { label: "Stock", value: "9 product ranges, in depth" },
-    { label: "Delivery", value: "Local van drops available" },
+    { label: "*Enquire for more locations", value: "Delivery to the Greater Manchester Area*" },
     { label: "Advice", value: "Real merchants, real answers" }
   ],
+
+  // Content for the About Us page — edit freely.
+  about: {
+    kicker: "About us",
+    title: "Your local trade counter for building plastics.",
+    body: [
+      "WB Plastics is a family-run business established in 2014 — 12 years in business, backed by over 30 years of combined construction experience. We're located in Salford, just off the M61, and open to both the trade and the public.",
+      "We stock a wide range of PVC-U building materials, including Deeplas profiles, and carry top cutting-edge brands in the market such as Easy Trim and Deeplas soffits, fascias and cladding. Every product we sell is weather resistant, low maintenance and built to a high quality standard — the installer's choice.",
+      "Alongside our roofline range, we also sell composite doors and door panels, sealants, cleaners, ancillaries, fixings, and decorative internal and external cladding."
+    ],
+    map: {
+      embedSrc: "https://www.google.com/maps?q=53.5377658,-2.3990776&z=16&output=embed",
+      link: "https://www.google.com/maps/place/WBPlastics+Upvc+Trade+Counter/@53.537769,-2.4016525,17z/data=!3m1!4b1!4m6!3m5!1s0x487ba8a0431c3931:0x37533ecefdac57c7!8m2!3d53.5377658!4d-2.3990776!16s%2Fg%2F11b7c2sytc?hl=en-US&entry=ttu&g_ep=EgoyMDI2MDcyMS4wIKXMDSoASAFQAw%3D%3D"
+    }
+  },
 
   // Placeholder size/colour options shown on every individual product page,
   // until each product has its own confirmed size and colour range.
