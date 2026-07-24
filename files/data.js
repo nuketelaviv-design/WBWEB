@@ -27,6 +27,10 @@
 
 window.SITE_DATA = {
 
+  // Live domain — used to build the structured data (LocalBusiness/SEO)
+  // injected on every page. Update if the site ever moves domain.
+  siteUrl: "https://wbplastics.co.uk",
+
   company: {
     name: "WB Plastics",
     fullName: "Wholesale Building Plastics",
@@ -39,9 +43,25 @@ window.SITE_DATA = {
     email: "info@wbplastics.co.uk",
     addressLines: ["Unit 8, Grecian Mill", "Worsley Road North", "Manchester, M28 3QW"],
     mapQuery: "Unit 8, Grecian Mill, Worsley Road North, Manchester, M28 3QW",
+    // Used in the LocalBusiness structured data — keep in sync with mapQuery.
+    geo: { lat: 53.5377658, lng: -2.3990776 },
+    addressLocality: "Salford",
+    postalCode: "M28 3QW",
     socials: [
       { label: "Facebook", href: "https://www.facebook.com/profile.php?id=100014280215027" }
-    ]
+    ],
+    // Trade counter opening hours — shown in structured data (can surface
+    // directly in Google search results), keep accurate.
+    openingHours: [
+      { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "08:00", closes: "17:00" },
+      { days: ["Saturday"], opens: "08:00", closes: "12:00" }
+    ],
+    // Local SEO targeting — primary towns are closest to the Salford/M61
+    // trade counter, wider towns are the rest of Greater Manchester.
+    areaServed: {
+      primary: ["Salford", "Bolton", "Bury", "Wigan"],
+      wider: ["Manchester", "Stockport", "Oldham", "Rochdale", "Tameside", "Trafford"]
+    }
   },
 
   hero: {

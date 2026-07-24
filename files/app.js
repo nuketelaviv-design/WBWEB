@@ -25,6 +25,44 @@
     return { cat, product };
   }
 
+  /* ---------- Shared: local SEO structured data ---------- */
+  function injectLocalBusinessSchema(){
+    const c = D.company;
+    const allTowns = [...c.areaServed.primary, ...c.areaServed.wider];
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "HardwareStore",
+      "name": c.name,
+      "alternateName": c.fullName,
+      "description": c.tagline,
+      "image": `${D.siteUrl}/${c.logo}`,
+      "url": D.siteUrl,
+      "telephone": c.phone,
+      "email": c.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": c.addressLines.slice(0, -1).join(', '),
+        "addressLocality": c.addressLocality,
+        "addressRegion": "Greater Manchester",
+        "postalCode": c.postalCode,
+        "addressCountry": "GB"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": c.geo.lat, "longitude": c.geo.lng },
+      "openingHoursSpecification": c.openingHours.map(o => ({
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": o.days,
+        "opens": o.opens,
+        "closes": o.closes
+      })),
+      "areaServed": allTowns.map(name => ({ "@type": "City", "name": name })),
+      "sameAs": c.socials.map(s => s.href)
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+  }
+
   /* ---------- Shared: top bar + header ---------- */
   function renderHeader(activePage){
     const nav = [
@@ -259,7 +297,21 @@
     }
 
     const { cat, product } = found;
-    document.title = `${product.name} — WB Plastics`;
+    document.title = `${product.name} — WB Plastics, Salford & Greater Manchester`;
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc){
+      metaDesc.setAttribute('content',
+        `${product.description} Stocked at WB Plastics' Salford trade counter, serving ${D.company.areaServed.primary.join(', ')} and Greater Manchester.`);
+    }
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical){
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', `${D.siteUrl}/product.html${window.location.search}`);
 
     if (crumb){
       crumb.innerHTML = `
@@ -323,10 +375,14 @@
 
     const box = document.getElementById('aboutContent');
     if (box){
+      const primary = D.company.areaServed.primary.join(', ');
+      const wider = D.company.areaServed.wider.join(', ');
       box.innerHTML = `
         <span class="section-kicker">${D.about.kicker}</span>
         <h2>${D.about.title}</h2>
         ${D.about.body.map(p => `<p>${p}</p>`).join('')}
+        <h3 style="font-size:19px; margin-top:24px; margin-bottom:10px;">Areas we cover</h3>
+        <p>We regularly serve <strong>${primary}</strong>, with delivery available further across Greater Manchester, including ${wider}.</p>
       `;
     }
   }
@@ -362,6 +418,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const page = document.body.dataset.page;
+    injectLocalBusinessSchema();
     renderHeader(page);
     renderFooter();
     if (page === 'home') renderHome();
