@@ -95,6 +95,12 @@
           <nav class="main-nav" id="mainNav">
             ${nav.map(n => `<a href="${n.href}" class="${n.key===activePage?'active':''}">${n.label}</a>`).join('')}
             <a href="${D.company.phoneHref}" class="nav-cta">Call ${D.company.phone}</a>
+            <a href="basket.html" class="basket-icon" id="basketIcon" aria-label="View basket">
+              <svg class="basket-icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/>
+              </svg>
+              <span class="basket-badge" id="basketBadge" hidden>0</span>
+            </a>
           </nav>
           <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
         </div>
@@ -204,19 +210,26 @@
     }
 
     function productCard(p, cat){
+      const slug = slugify(p.name);
+      const price = typeof p.price === 'number' && p.price > 0 ? `£${p.price.toFixed(2)}` : '';
       return `
-        <a class="product-card" href="product.html?cat=${encodeURIComponent(cat.id)}&p=${encodeURIComponent(slugify(p.name))}"
-             data-name="${(p.name+' '+p.description+' '+cat.name).toLowerCase()}">
-          <div class="product-photo">
-            ${p.image ? `<img src="${p.image}" alt="${p.name}" loading="lazy">` : `<span class="placeholder">${cat.name}</span>`}
+        <div class="product-card" data-name="${(p.name+' '+p.description+' '+cat.name).toLowerCase()}">
+          <a class="product-card-link" href="product.html?cat=${encodeURIComponent(cat.id)}&p=${encodeURIComponent(slug)}">
+            <div class="product-photo">
+              ${p.image ? `<img src="${p.image}" alt="${p.name}" loading="lazy">` : `<span class="placeholder">${cat.name}</span>`}
+            </div>
+            <div class="product-body">
+              <h3>${p.name}</h3>
+              <p class="desc">${p.description}</p>
+              ${p.colours && p.colours.length ? `<div class="swatches">${p.colours.map(col => `<span class="swatch">${col}</span>`).join('')}</div>` : ''}
+              ${p.sizes ? `<div class="spec-tag">${p.sizes}</div>` : ''}
+            </div>
+          </a>
+          <div class="product-card-actions">
+            ${price ? `<span class="product-price">${price}</span>` : '<span></span>'}
+            <button type="button" class="btn btn-primary btn-sm add-to-basket" data-cat="${cat.id}" data-slug="${slug}">Add to basket</button>
           </div>
-          <div class="product-body">
-            <h3>${p.name}</h3>
-            <p class="desc">${p.description}</p>
-            ${p.colours && p.colours.length ? `<div class="swatches">${p.colours.map(col => `<span class="swatch">${col}</span>`).join('')}</div>` : ''}
-            ${p.sizes ? `<div class="spec-tag">${p.sizes}</div>` : ''}
-          </div>
-        </a>
+        </div>
       `;
     }
 
@@ -233,6 +246,18 @@
         </div>
       </section>
     `).join('');
+
+    sections.addEventListener('click', (e) => {
+      const btn = e.target.closest('.add-to-basket');
+      if (!btn || !window.WBBasket) return;
+      const added = window.WBBasket.quickAdd(btn.dataset.cat, btn.dataset.slug, 1);
+      if (added){
+        const original = btn.textContent;
+        btn.textContent = 'Added ✓';
+        btn.disabled = true;
+        setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1200);
+      }
+    });
 
     // Search filter — filters product cards and hides empty sections
     if (search){
@@ -345,6 +370,8 @@
       `;
     }).join('');
 
+    const price = typeof product.price === 'number' && product.price > 0 ? `£${product.price.toFixed(2)}` : '';
+
     detail.innerHTML = `
       <div class="product-detail-shell">
         <div class="product-detail-photo">
@@ -354,13 +381,48 @@
           <span class="section-kicker">${cat.name}</span>
           <h1>${product.name}</h1>
           <p class="desc">${product.description}</p>
+          ${price ? `<div class="detail-price">${price}</div>` : ''}
 
           ${optionFields}
 
-          <a class="btn btn-primary" href="${D.company.phoneHref}">Call to check stock &rarr;</a>
+          <div class="qty-stepper" data-qty="1">
+            <button type="button" class="qty-btn" data-dir="-1" aria-label="Decrease quantity">&ndash;</button>
+            <span class="qty-value">1</span>
+            <button type="button" class="qty-btn" data-dir="1" aria-label="Increase quantity">+</button>
+          </div>
+
+          <div class="detail-actions">
+            <button type="button" class="btn btn-primary" id="addToBasketBtn">Add to basket</button>
+            <a class="btn btn-ghost" href="${D.company.phoneHref}">Call to check stock &rarr;</a>
+          </div>
         </div>
       </div>
     `;
+
+    const stepper = detail.querySelector('.qty-stepper');
+    stepper.addEventListener('click', (e) => {
+      const btn = e.target.closest('.qty-btn');
+      if (!btn) return;
+      const qty = Math.max(1, Number(stepper.dataset.qty) + Number(btn.dataset.dir));
+      stepper.dataset.qty = qty;
+      stepper.querySelector('.qty-value').textContent = qty;
+    });
+
+    const addBtn = detail.querySelector('#addToBasketBtn');
+    if (addBtn && window.WBBasket){
+      addBtn.addEventListener('click', () => {
+        const options = {};
+        optionSets.forEach((opt, i) => {
+          options[opt.label] = detail.querySelector(`#detailOption${i}`).value;
+        });
+        const qty = Number(stepper.dataset.qty);
+        window.WBBasket.addItem(cat.id, params.get('p'), options, qty);
+        const original = addBtn.textContent;
+        addBtn.textContent = 'Added ✓';
+        addBtn.disabled = true;
+        setTimeout(() => { addBtn.textContent = original; addBtn.disabled = false; }, 1200);
+      });
+    }
   }
 
   /* ---------- About page ---------- */
@@ -416,15 +478,19 @@
     }
   }
 
+  window.WBSite = { slugify, findProduct };
+
   document.addEventListener('DOMContentLoaded', () => {
     const page = document.body.dataset.page;
     injectLocalBusinessSchema();
     renderHeader(page);
     renderFooter();
+    if (window.WBBasket) window.WBBasket.init();
     if (page === 'home') renderHome();
     if (page === 'products') renderProducts();
     if (page === 'product') renderProductDetail();
     if (page === 'about') renderAbout();
     if (page === 'contact') renderContact();
+    if (page === 'basket') window.WBBasket.renderBasketPage();
   });
 })();

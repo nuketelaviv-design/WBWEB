@@ -19,9 +19,18 @@
     name        - product name, shown as a heading
     description - a sentence or two about the product
     image       - a photo URL (or leave "" for a placeholder swatch)
+    price       - price in GBP, e.g. 24.99. Shown on product cards, the
+                  product page and in the basket.
+                  *** PLACEHOLDER PRICES *** — every product below currently
+                  has a placeholder price. Replace each one with the real
+                  price before taking live orders.
     colours     - array of colour names, shown as small tags
     sizes       - short text describing sizes/lengths/thicknesses
     sku         - optional reference code, shown in the mono spec tag
+
+  Basket / checkout settings:
+    See FULFILMENT below to edit delivery fees, click & collect details,
+    and the card payment message shown until Barclaycard is connected.
   ============================================================
 */
 
@@ -100,6 +109,34 @@ window.SITE_DATA = {
   defaultSizes: ["150mm", "175mm", "200mm", "225mm", "250mm", "300mm", "405mm"],
   defaultColours: ["White", "Black Ash", "Anthracite Grey RAL 7016", "Rosewood"],
 
+  // Basket / checkout settings — edit these to change delivery pricing,
+  // the click & collect message, and the payment message shown to
+  // customers until card payments (Barclaycard) are switched on.
+  fulfilment: {
+    collect: {
+      label: "Click & Collect",
+      // Address and opening hours are pulled from COMPANY above, so they
+      // only need to be kept accurate in one place.
+      note: "Free — collect from our Salford trade counter during opening hours."
+    },
+    delivery: {
+      label: "Home Delivery",
+      // Flat delivery fee in GBP, charged on every delivery order unless
+      // the order total reaches freeOverThreshold.
+      fee: 15.00,
+      note: "Flat-rate delivery across our Greater Manchester service area.",
+      // Set to a number (e.g. 250) to waive the delivery fee above that
+      // order total, or leave as null to always charge the fee.
+      freeOverThreshold: null
+    },
+    payment: {
+      // Flip to true once Barclaycard is connected — this is the only
+      // switch needed to turn the "Pay by card" button on.
+      cardEnabled: false,
+      comingSoonNote: "Card payments are being set up. For now, please pay on collection or delivery, or call the trade counter to arrange payment."
+    }
+  },
+
   categories: [
     {
       id: "roofline",
@@ -112,6 +149,7 @@ window.SITE_DATA = {
           name: "Replacement Fascia",
           description: "Fixes to the rafters running parallel to the house, concealing them and carrying the gutter brackets.",
           image: "assets/products/replacement_fascia.png",
+          price: 0,
           colours: ["White", "Anthracite Grey", "Black Ash", "Rosewood"],
           sizes: "150mm – 600mm · corners, joiners & finials to match"
         },
@@ -119,6 +157,7 @@ window.SITE_DATA = {
           name: "Capping Board",
           description: "Caps over existing timber fascia boards without stripping them back.",
           image: "assets/products/fascia.png",
+          price: 0,
           colours: ["White", "Anthracite Grey", "Black Ash", "Rosewood"],
           sizes: "150mm – 600mm · corners, joiners, end caps & finials"
         },
@@ -126,6 +165,7 @@ window.SITE_DATA = {
           name: "Soffit Board",
           description: "9mm general purpose board; larger widths are double-ended as standard.",
           image: "assets/products/soffit-board.png",
+          price: 0,
           colours: ["White", "Anthracite Grey", "Black Ash", "Rosewood"],
           sizes: "150mm – 600mm (white also in 100mm)"
         },
@@ -133,6 +173,7 @@ window.SITE_DATA = {
           name: "Dry Verge",
           description: "Universal Easy-Trim Verge U — left or right side, compatible with most tile types, fast to fit.",
           image: "assets/products/imagesaccessories/dryverge_generic.jpg",
+          price: 0,
           colours: ["Grey", "Black", "Brown"],
           sizes: "Starter kits, 10mm over-fascia ventilation, Ridge F Plus & Lead R accessories in stock"
         },
@@ -140,6 +181,7 @@ window.SITE_DATA = {
           name: "Eaves Tray",
           description: "Prevents felt sagging and ponding at eaves level — ideal for new build or re-roofs without stripping large felt sections.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2025/10/cropped-eaves-rtaY.jpg",
+          price: 0,
           colours: ["Grey/Black"],
           sizes: "1500mm lengths"
         },
@@ -147,6 +189,7 @@ window.SITE_DATA = {
           name: "Ridge Kits",
           description: "Easy-Trim Ridge F Plus 3 metre dry fix ridge kit — universal union clips, ridge union strap, fixings and hip accessory pack available.",
           image: "assets/products/imagesaccessories/easy-trim-Premium-Dry-Fix-Ridge-Kits-3m-Black.jpg",
+          price: 0,
           colours: ["Black", "Terracotta"],
           sizes: "3 metre kits",
           // This product only needs a single Colour dropdown on its page,
@@ -168,6 +211,7 @@ window.SITE_DATA = {
           name: "Rainwater Guttering",
           description: "Half Round, Square Line, Deep Flow High Capacity and Ogee styles, in a wide range of colours.",
           image: "assets/products/rainwater-guttering.png",
+          price: 0,
           colours: ["White", "Black", "Grey", "Brown"],
           sizes: "2m – 5m lengths, including 150mm commercial"
         },
@@ -175,6 +219,7 @@ window.SITE_DATA = {
           name: "Downpipes",
           description: "Round or square rainwater pipe, carrying water from gutter to ground.",
           image: "assets/products/rainwater-guttering.png",
+          price: 0,
           colours: ["White", "Black", "Grey", "Brown"],
           sizes: "2.5m & 5.5m lengths, 2 sizes available"
         },
@@ -182,6 +227,7 @@ window.SITE_DATA = {
           name: "Guttering Ancillaries",
           description: "Joints, clips, bends and brackets for all rainwater goods, in every stock colour.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-39.png",
+          price: 0,
           colours: ["To match stock guttering"],
           sizes: "All fittings held in stock"
         }
@@ -198,6 +244,7 @@ window.SITE_DATA = {
           name: "Underground Drainage",
           description: "110mm underground drainage pipe in terracotta, plus 160mm underground pipe.",
           image: "assets/products/imagesunderground/length_pipe.jpg",
+          price: 0,
           colours: ["Terracotta"],
           sizes: "110mm: 3m & 6m · 160mm: 6m"
         },
@@ -205,6 +252,7 @@ window.SITE_DATA = {
           name: "Above Ground Drainage",
           description: "110mm above-ground drainage pipe, readily stocked.",
           image: "assets/products/length_pipe_bk.webp",
+          price: 0,
           colours: ["Black", "White"],
           sizes: "3m lengths"
         },
@@ -212,6 +260,7 @@ window.SITE_DATA = {
           name: "Roddable Gully",
           description: "Back inlet roddable and plain-ended roddable, in square or round tops.",
           image: "assets/products/roddable-gully.png",
+          price: 0,
           colours: ["Standard"],
           sizes: "Square & round top variants"
         },
@@ -219,6 +268,7 @@ window.SITE_DATA = {
           name: "Flexi Couplers",
           description: "Rubber flexible adaptors for connecting pipes with different outside dimensions.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-16.png",
+          price: 0,
           colours: ["—"],
           sizes: "4\" clay–plastic, 4\" cast–plastic, 6\" clay–clay, 6\" clay–plastic, 6\" cast–plastic, 4\" clay–clay"
         },
@@ -226,6 +276,7 @@ window.SITE_DATA = {
           name: "Manholes & Channel Drain",
           description: "Chamber bases and raisers, covers and frames, riser rings, long radius bends and PVC channel drain.",
           image: "assets/products/manholes-channel-drain.png",
+          price: 0,
           colours: ["Square & round"],
           sizes: "Chambers: 320mm & 470mm · channel drain in 1m lengths"
         }
@@ -242,6 +293,7 @@ window.SITE_DATA = {
           name: "Architrave",
           description: "A professional finish around window and door edges, in three widths.",
           image: "assets/products/architrave.png",
+          price: 0,
           colours: ["White", "Grey", "Cream", "Oak", "Black", "Rosewood", "Chartwell Green"],
           sizes: "45mm, 65mm, 95mm"
         },
@@ -249,6 +301,7 @@ window.SITE_DATA = {
           name: "D Mould",
           description: "A neat, chamfered finish around window frames, between frame and cill.",
           image: "",
+          price: 0,
           colours: ["White", "Grey", "Cream", "Oak", "Black", "Rosewood", "Chartwell Green"],
           sizes: "19mm & 24mm"
         },
@@ -256,6 +309,7 @@ window.SITE_DATA = {
           name: "Quadrant",
           description: "Covers gaps between windows and cills; adjustable variants suit bay poles and corner posts.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-34.png",
+          price: 0,
           colours: ["White", "Grey", "Cream", "Oak", "Black", "Rosewood", "Chartwell Green"],
           sizes: "13.5mm & 18.5mm"
         },
@@ -263,6 +317,7 @@ window.SITE_DATA = {
           name: "Angle Beads",
           description: "Softens and hides rough or unfinished edges, nails and screws.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-image-2.png",
+          price: 0,
           colours: ["White", "Grey", "Cream", "Oak", "Black", "Rosewood", "Chartwell Green"],
           sizes: "25x25, 40x45, 100x80"
         }
@@ -279,6 +334,7 @@ window.SITE_DATA = {
           name: "Hollow Cladding",
           description: "A sturdier hollow soffit board with protective tape and a double-skinned fixing location for a solid install.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2025/10/cropped-hollow-soffit.jpg",
+          price: 0,
           colours: ["White", "Anthracite Grey", "Black Grain", "Rosewood"],
           sizes: "5000mm x 300mm · starter trims, joints & angle trims to suit"
         },
@@ -286,6 +342,7 @@ window.SITE_DATA = {
           name: "Shiplap Cladding",
           description: "The look of timber cladding with none of the maintenance — no sanding, painting or staining, won't warp, split or rot.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/image.png",
+          price: 0,
           colours: ["White", "Anthracite Grey", "Black Grain", "Rosewood"],
           sizes: "5000mm x 150mm · starter trims, joints & angle trims to suit"
         },
@@ -293,6 +350,7 @@ window.SITE_DATA = {
           name: "Decorative Wall Panels",
           description: "Flush, waterproof shower panels for bathrooms and wet rooms — fits over existing tiles, no grouting.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-Untitled.png",
+          price: 0,
           colours: ["Full range on request"],
           sizes: "Packs of 4 · 250mm x 2700mm"
         }
@@ -309,6 +367,7 @@ window.SITE_DATA = {
           name: "Polypins",
           description: "Plastic-headed pins & nails in marine-grade stainless steel, made for neat fascia and soffit fixing.",
           image: "assets/products/polypins.png",
+          price: 0,
           colours: ["White", "Black", "Grey", "Brown"],
           sizes: "30mm, 40mm, 50mm, 65mm"
         },
@@ -316,6 +375,7 @@ window.SITE_DATA = {
           name: "Wood Screws",
           description: "No pre-drilling, superior holding power, faster penetration and less drive-in torque required.",
           image: "",
+          price: 0,
           colours: ["Yellow passivated"],
           sizes: "4.0 & 5.0 head · 20–100mm long · wall plugs also stocked"
         },
@@ -323,6 +383,7 @@ window.SITE_DATA = {
           name: "Concrete Screws",
           description: "Self-tapping, no plug required, high strength for masonry and concrete.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-27.png",
+          price: 0,
           colours: ["Zinc"],
           sizes: "82, 102, 122 & 152mm long"
         },
@@ -330,6 +391,7 @@ window.SITE_DATA = {
           name: "Bay Poles",
           description: "Wafer-head screws designed for joining bay window uPVC sections.",
           image: "",
+          price: 0,
           colours: ["Standard"],
           sizes: "4.8 x 60 & 4.8 x 80"
         },
@@ -337,6 +399,7 @@ window.SITE_DATA = {
           name: "Cover Caps",
           description: "Two-part snap caps — a washer base and locking dome cap — for an air and watertight seal over fixings.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-29.png",
+          price: 0,
           colours: ["To match fixings"],
           sizes: "Standard"
         },
@@ -344,6 +407,7 @@ window.SITE_DATA = {
           name: "Drill Bits",
           description: "SDS+ bits for brick and concrete, HSS bits for metal.",
           image: "",
+          price: 0,
           colours: ["Standard"],
           sizes: "SDS 5.5mm x 160mm up to 14mm x 210mm"
         },
@@ -351,6 +415,7 @@ window.SITE_DATA = {
           name: "General Tools",
           description: "Glazing hammers, Stanley blades and everything from HSS through to SDS bits.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-31.png",
+          price: 0,
           colours: ["—"],
           sizes: "Full range in stock"
         }
@@ -367,6 +432,7 @@ window.SITE_DATA = {
           name: "Silicones",
           description: "Professional grade sealants for interior and exterior work, including dedicated lead, roof & gutter and bathroom & kitchen ranges.",
           image: "assets/products/silicones.png",
+          price: 0,
           colours: ["White", "Black", "Grey", "Brown", "Toffee", "Translucent"],
           sizes: "Standard cartridges"
         },
@@ -374,6 +440,7 @@ window.SITE_DATA = {
           name: "Expanding Foams",
           description: "Hand and gun-grade polyurethane foams from Soudal, including a fast-setting Easyfix and a fire-rated foam for Building Control compliance.",
           image: "",
+          price: 0,
           colours: ["Standard"],
           sizes: "Hand-held & gun grade"
         },
@@ -381,6 +448,7 @@ window.SITE_DATA = {
           name: "Cleaning Products",
           description: "Technical sprays for construction and industrial use — glue, silicone and PU foam removers, solvent & cream cleaners for uPVC, wipes, sanitisers and a foil-safe cleaner.",
           image: "assets/products/cleaning-products.png",
+          price: 0,
           colours: ["—"],
           sizes: "Full range in stock"
         },
@@ -388,6 +456,7 @@ window.SITE_DATA = {
           name: "Adhesives",
           description: "Fix All hybrid polymer sealant-adhesives, Grip All grab adhesives, plus wood and parquet adhesives.",
           image: "",
+          price: 0,
           colours: ["White", "Grey", "Black", "Translucent"],
           sizes: "Standard cartridges"
         },
@@ -395,6 +464,7 @@ window.SITE_DATA = {
           name: "Caulk",
           description: "Fillers for interior and exterior construction, plus a specialist automotive range.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-24.png",
+          price: 0,
           colours: ["White"],
           sizes: "Standard cartridges"
         }
@@ -411,6 +481,7 @@ window.SITE_DATA = {
           name: "Wall Panel Styles",
           description: "Fourteen finishes in stock including Platinum Grey Sparkle, Midnight Stone Blue, Pergamon, Black Sparkle, Hexagon Dream Aqua, Concrete Grey, White Sparkle, Travertine and more.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2024/06/Midnight-Stone-Blue.jpg",
+          price: 0,
           colours: ["Sparkle", "Stone", "Hexagon", "Mosaic", "Gloss", "Pastel"],
           sizes: "Ask in store for current sheet sizes"
         },
@@ -418,6 +489,7 @@ window.SITE_DATA = {
           name: "Internal / External Corner",
           description: "Matching corner trims for a clean finish where panels meet.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2024/06/internal-corner.jpg",
+          price: 0,
           colours: ["White", "Black", "Silver"],
           sizes: "5mm / 8mm / 10mm x 2.6m"
         },
@@ -425,6 +497,7 @@ window.SITE_DATA = {
           name: "Edge / End Trim & H-Section Joiner",
           description: "Finishing and joining trims for panel runs.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2024/06/H-Section-Joiner.jpg",
+          price: 0,
           colours: ["White", "Black", "Silver"],
           sizes: "5mm / 8mm / 10mm x 2.6m"
         },
@@ -432,6 +505,7 @@ window.SITE_DATA = {
           name: "Coving & Quadrant Trim",
           description: "Coving for a rounded ceiling junction; quadrant trim for internal corners.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2024/06/coving.jpg",
+          price: 0,
           colours: ["White", "Silver"],
           sizes: "Coving 5mm/8mm x 2.6m · Quadrant 19mm x 2.6m"
         },
@@ -439,6 +513,7 @@ window.SITE_DATA = {
           name: "Rigid Angle",
           description: "A crisp right-angle trim for panel edges and returns.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2024/06/rigid-angle.jpg",
+          price: 0,
           colours: ["White", "Silver", "Aluminium Chrome"],
           sizes: "25mm / 25mm x 2.6m"
         }
@@ -455,6 +530,7 @@ window.SITE_DATA = {
           name: "Rolled Lead",
           description: "An excellent roofing material — pliable, easy to use, and works well alongside other roofing products.",
           image: "https://wbplastics.co.uk/wp-content/uploads/2021/02/cropped-bigback-36.png",
+          price: 0,
           colours: ["Code 3 (1.32mm)", "Code 4 (1.80mm)"],
           sizes: "3m or 6m lengths · 150mm – 600mm widths"
         }
